@@ -1,6 +1,6 @@
 {
     "$schema": "https://raw.githubusercontent.com/Azure/azure-devtestlab/master/schemas/2016-11-28/dtlArtifacts.json",
-    "title": "Azure Pipelines Deployment Group Agent",
+    "title": "[Custom]Azure Pipelines Deployment Group Agent",
     "description": "Downloads the latest deployment agent from Azure DevOps and configures it against the specified deployment group.",
     "publisher": "Microsoft",
     "iconUri": "https://cdn.vsassets.io/content/icons/favicon.ico",
