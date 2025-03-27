@@ -65,36 +65,6 @@ function New-AgentPath
     return $agentInstallPath
 }
 
-function Get-DeploymentAgentDownloadUrl
-{
-    [CmdletBinding()]
-    param(
-        [Parameter(Mandatory=$true)]$accountUrl,
-        [Parameter(Mandatory=$true)]$personalAccessToken
-        )
-
-    $platform = "win7-x64"
-    $downloadAPIVersion = "3.0-preview.2"
-    $userName = "AzureDevTestLabs"
-
-    [string] $restCallUrl = $accountUrl + ("/_apis/distributedtask/packages/agent/{0}?top=1&api-version={1}" -f $platform,$downloadAPIVersion)
-    Write-Host "Agent Download REST url: $restCallUrl"
-
-    
-    $basicAuth = ("{0}:{1}" -f $userName, $personalAccessToken)
-    $basicAuth = [System.Text.Encoding]::UTF8.GetBytes($basicAuth)
-    $basicAuth = [System.Convert]::ToBase64String($basicAuth)
-    $headers = @{Authorization=("Basic {0}" -f $basicAuth)}
-
-    $response = Invoke-RestMethod -Uri $restCallUrl -headers $headers -Method Get -ContentType 'application/json'
-    Write-Host "Agent Download REST response: $response"
-    
-    $downloadUrl = $response.Value[0].downloadUrl
-    Write-Host "Deployment Agent download url: $downloadUrl"
-
-    return $downloadUrl
-}
-
 function Download-DeploymentGroupAgent
 {
     [CmdletBinding()]
@@ -106,7 +76,7 @@ function Download-DeploymentGroupAgent
         )
    
     $agentZip="$agentInstallPath\$agentZipFile";
-    $downloadUrl = Get-DeploymentAgentDownloadUrl $accountUrl $personalAccessToken
+    $downloadUrl = "https://vstsagentpackage.azureedge.net/agent/3.238.0/vsts-agent-win-x64-3.238.0.zip"
     pushd $agentInstallPath
 
     #download
